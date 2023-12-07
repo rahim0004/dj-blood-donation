@@ -1,0 +1,12 @@
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-dark container" id="sidebar">
+        <div class="list-group list-group-flush">
+            <a href="{% url 'profile' %}" class="s-link p-3 list-group-item list-group-item-action bg-dark text-white">Profile</a>
+            <a href="{% url 'password_change' %}" class="s-link p-3 list-group-item list-group-item-action bg-dark text-white">Change Password</a>
+            <a href="{% url 'delete_account' %}" class="s-link p-3 list-group-item list-group-item-action bg-dark text-white">Delete Account</a>
+            <a href="{% url 'logout' %}" class="s-link p-3 list-group-item list-group-item-action bg-dark text-white">Logout</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<nav id="mainNav" class="navbar fixed-top navbar-default navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="../index.php">DONATETHEBLOOD</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+    </ul>
+
+    <ul class="navbar-nav form-inline my-2 my-lg-0 mr-5">
+
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'all_donors' %}">Donors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "search" %}">Search</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "about" %}">About Us</a>
+      </li>
+      {% if not user.is_authenticated %}
+      
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "signup" %}">Donate</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url "signin" %}">Signin</a>
+      </li>
+      {% else %}
+      <li class="nav-item dropdown mr-5">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          {{user.username}}<!-- Donor Name -->
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+          <a class="dropdown-item" href="{% url 'profile' %}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+
+          {% comment %} <a class="dropdown-item" href="./update.php"><i class="fa fa-edit" aria-hidden="true"></i>
+            Update Profile</a> {% endcomment %}
+
+          <a class="dropdown-item" href="{% url "logout" %}">
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+
+            Logout</a>
+        </div>
+      </li>
+
+      {% endif %}
+
+    </ul>
+  </div>
+</nav>

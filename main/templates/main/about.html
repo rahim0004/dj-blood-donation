@@ -1,0 +1,100 @@
+{% extends "main/base.html" %}
+{% block title %}About Us{% endblock title %}
+{% block content %}
+{% load static %}
+
+<style>
+	.size{
+		padding: 80px 0px;
+	}
+	img{
+		width: 300px;
+		height: 300px;
+	}
+	h2{
+		color: #e74c3c;
+	}
+	.white{
+		background-color: white;
+	}
+	p{
+		font-size: 18px;
+	}
+	.right{
+		float: right;
+	}
+	h1{
+		color: white;
+	}
+	.size{
+		min-height: 0px;
+		padding: 60px 0 40px 0;
+		
+	}
+
+</style>
+<div class="container-fluid red-background size">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
+			<h1 class="text-center">About Us</h1>
+			<hr class="white-bar">
+		</div>
+	</div>
+</div>
+<div class="container-fluid size">
+	
+	<div class="container">
+		<div class="row">
+		<div class="col-md-6"><img src="{% static 'main/img/binoculars.png' %}" alt="Our Vission" class="rounded float-left img-fluid"></div>
+		<div class="col-md-6">
+			<h2 class="text-center">Our Vission</h2>
+			<hr class="red-bar">
+			<p class="text-center">
+				At <strong>Donate Blood</strong>, we envision a world where every drop of donated blood unites us in saving lives. Join us in this simple yet powerful mission. Together, let's make a life-changing impact through the act of giving.
+			</p>
+			<p class="text-center">
+				At <strong>Donate Blood</strong>, we envision a world where every drop of donated blood unites us in saving lives. Join us in this simple yet powerful mission. Together, let's make a life-changing impact through the act of giving.
+			</p>
+		</div>
+	</div>
+	</div>
+</div>
+
+<div class="container-fluid white size">
+	<div class="container ">
+	<div class="container">
+		<div class="row ">
+		<div class="col-md-6">
+			<h2 class="text-center">Our Goal</h2>
+			<hr class="red-bar">
+			<p class="text-center">
+				At <strong>Donate Blood</strong>, our goal is straightforward – to make a lasting impact through actionable generosity. We aim to inspire and facilitate blood donation, ensuring that every contribution directly translates into saving lives.
+
+				Join us in achieving this goal. Together, let's turn aspirations into actions, making a tangible difference in the health and well-being of those in need. Because, at [Your Organization's Name], our goal is to transform goodwill into life-changing results."
+			</p>
+		</div>
+		<div ><img src="{% static 'main/img/goal.png' %}" alt="Our Vission" class="rounded img-fluid float-right"></div>
+	</div>
+	</div>		
+</div>
+</div>
+	
+
+	<div class="container-fluid size">
+		<div class="container">
+		<div class="row">
+		<div class="col-md-6"><img src="{% static 'main/img/target.png' %}" alt="Our Vission" class="rounded float-left img-fluid"></div>
+		<div class="col-md-6">
+			<h2 class="text-center">Our Mission</h2>
+			<hr class="red-bar">
+			<p class="text-center">
+				At <strong>Donate Blood</strong>, our mission is clear: to save lives and spread hope through the vital act of blood donation. We are dedicated to making the process of giving easy and impactful, fostering a community where compassion knows no bounds.
+
+				Our mission extends beyond collecting blood – it's about creating a movement that inspires individuals to become lifelong advocates for health and well-being. Join us in fulfilling this mission, as we work together to ensure that every donation becomes a beacon of hope for those facing medical challenges
+			</p>
+		</div>
+	</div>
+	</div>
+	</div>
+
+{% endblock content %}

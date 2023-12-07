@@ -1,0 +1,25 @@
+{% extends "main/profile_nav.html" %}
+{% block title %}Confirm Delete{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block profile_content %}
+
+<h3>Delete Your Account?</h3>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-danger">Confirm Delete Account</h5>
+            <p class="card-text">Are you sure you want to delete your account? This action cannot be undone.</p>
+            
+            <form action="#" method="POST" id="deleteForm">
+                {% csrf_token %}
+                <input type="hidden" name="delete" value="true">
+                <!-- Add your delete account functionality here -->
+                
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+                <a href="{% url 'profile' %}" class="btn btn-secondary mt-4" data-dismiss="modal">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock profile_content %}

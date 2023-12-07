@@ -1,0 +1,139 @@
+{% extends "main/base.html" %}
+{% block title %}All Donors{% endblock title %}
+{% block content %}
+
+<style>
+	.size {
+		min-height: 0px;
+		padding: 60px 0 40px 0;
+
+	}
+
+	.loader {
+		display: none;
+		width: 69px;
+		height: 89px;
+		position: absolute;
+		top: 25%;
+		left: 50%;
+		padding: 2px;
+		z-index: 1;
+	}
+
+	.loader .fa {
+		color: #e74c3c;
+		font-size: 52px !important;
+	}
+
+	.form-group {
+		text-align: left;
+	}
+
+	h1 {
+		color: white;
+	}
+
+	h3 {
+		color: #e74c3c;
+		text-align: center;
+	}
+
+	.red-bar {
+		width: 25%;
+	}
+
+	span {
+		display: block;
+	}
+
+	.name {
+		color: #e74c3c;
+		font-size: 22px;
+		font-weight: 700;
+	}
+
+	.donors_data {
+		background-color: white;
+		border-radius: 5px;
+		margin: 25px;
+		-webkit-box-shadow: 0px 2px 5px -2px rgba(89, 89, 89, 0.95);
+		-moz-box-shadow: 0px 2px 5px -2px rgba(89, 89, 89, 0.95);
+		box-shadow: 0px 2px 5px -2px rgba(89, 89, 89, 0.95);
+		padding: 20px 10px 20px 30px;
+	}
+</style>
+<div class="container-fluid red-background size">
+	<div class="row">
+		<div class="ccol-md-6 offset-md-3">
+			<h1 class="text-center">All Donors</h1>
+			<hr class="white-bar">
+			<br>
+		</div>
+	</div>
+</div>
+<div class="container" style="padding: 60px 0 60px 0;">
+	<div class="row">
+		{% if donors %}
+		{% for donor in donors %}
+		  <div class="col-md-4">
+			<div class="card mb-4 box-shadow">
+			  <div class="card-body donors_data">
+				<p class="name"><strong>Donor</strong> : {{ donor.first_name }}</p>
+				<p><strong>Blood Group</strong> : {{ donor.blood_group }}</p>
+				<p><strong>Division</strong> : {{ donor.division }}</p>
+				<p><strong>Gender</strong> : {{ donor.gender|capfirst }}</p>
+				<p><strong>Email</strong> : {{ donor.email }}</p>
+				<p><strong>Contact No</strong> : {{ donor.phone_number }}</p>
+			  </div>
+			</div>
+		  </div>
+		{% endfor %}
+		{% else %}
+		<div class="col-md-12">
+			<div class="alert alert-warning" role="alert">
+			  No results found.
+			</div>
+		  </div>
+		{% endif %}
+	  </div>
+
+	  <nav aria-label="Page navigation">
+		<ul class="pagination">
+		  {% if page_obj.has_previous %}
+			<li class="page-item">
+			  <a class="page-link" href="?page=1{% if request.GET.blood_group %}&blood_group={{ request.GET.blood_group|urlencode }}{% endif %}{% if request.GET.division %}&division={{ request.GET.division|urlencode }}{% endif %}" aria-label="First">
+				<span aria-hidden="true">&laquo;&laquo;</span>
+			  </a>
+			</li>
+			<li class="page-item">
+			  <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.blood_group %}&blood_group={{ request.GET.blood_group|urlencode }}{% endif %}{% if request.GET.division %}&division={{ request.GET.division|urlencode }}{% endif %}" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			  </a>
+			</li>
+		  {% endif %}
+	  
+		  <li class="page-item disabled">
+			<span class="page-link">
+			  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+			</span>
+		  </li>
+	  
+		  {% if page_obj.has_next %}
+			<li class="page-item">
+			  <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.blood_group %}&blood_group={{ request.GET.blood_group|urlencode }}{% endif %}{% if request.GET.division %}&division={{ request.GET.division|urlencode }}{% endif %}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			  </a>
+			</li>
+			<li class="page-item">
+			  <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.blood_group %}&blood_group={{ request.GET.blood_group|urlencode }}{% endif %}{% if request.GET.division %}&division={{ request.GET.division|urlencode }}{% endif %}" aria-label="Last">
+				<span aria-hidden="true">&raquo;&raquo;</span>
+			  </a>
+			</li>
+		  {% endif %}
+		</ul>
+	  </nav>
+	  
+	  
+	</div>
+  
+{% endblock content %}

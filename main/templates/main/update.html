@@ -1,0 +1,16 @@
+{% extends "main/profile_nav.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Profile{% endblock title %}
+
+{% block profile_content %}
+
+<h3>Update Profile</h3>
+	<hr class="red-bar">
+	<form action="" method="post" novalidate>
+		{% csrf_token %}
+		{{form|crispy}}
+		<div class="form-group">
+			<button id="submit" name="submit" type="submit" class="btn btn-lg btn-danger center-aligned" style="margin-top: 20px;">Update</button>
+		</div>
+	</form>
+{% endblock profile_content %}

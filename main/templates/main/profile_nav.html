@@ -1,0 +1,51 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+
+<style>
+    .form-group {
+        text-align: left;
+    }
+
+    .form-container {
+
+        padding: 20px 10px 20px 30px;
+
+    }
+</style>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+    }
+
+    #sidebar {
+        height: 100vh;
+        background-color: #343a40;
+        color: white;
+    }
+
+    #sidebar .nav-link {
+        color: white;
+    }
+</style>
+<div class="container" style="padding: 60px 0;">
+    <div class="row">
+        {% include "main/sidebar.html" %}
+        <div class="col-md-8 container">
+{% block profile_content %}
+
+{% endblock profile_content %}
+
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelectorAll(".s-link").forEach((link) => {
+  if (link.href === window.location.href) {
+      link.classList.add("s-active");
+    //   link.setAttribute("aria-current", "page");
+  }
+});
+
+  </script>
+{% endblock content %}
