@@ -130,7 +130,7 @@ AUTH_USER_MODEL = 'main.User'
 
 DB_PREFIX = "bl_"
 
-
+LOGIN_URL = "signin"
 # Bootstrap
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 

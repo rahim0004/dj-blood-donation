@@ -1,16 +1,15 @@
-from typing import Any
-from django import http
-from django.db import models
-from django.shortcuts import render, HttpResponseRedirect
-from django.urls import reverse
+from .models import User
+from django.shortcuts import HttpResponseRedirect
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout, login
 from .forms import UserRegistrationForm, UserLoginForm, ProfileUpdateForm
-from .models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse
+from django.contrib.auth import logout, login
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from backend.utils import redirect_if_logged_in
 
 
 # Create your views here.
@@ -22,6 +21,7 @@ class AboutUsView(TemplateView):
     template_name = "main/about.html"
 
 
+@method_decorator(redirect_if_logged_in, name="dispatch")
 class UserSignUpView(FormView):
     template_name = "main/signup.html"
     form_class = UserRegistrationForm
@@ -39,6 +39,7 @@ class UserSignUpView(FormView):
         return context
 
 
+@method_decorator(redirect_if_logged_in, name="dispatch")
 class UserSignInView(FormView):
     template_name = "main/signup.html"
     form_class = UserLoginForm
@@ -57,7 +58,7 @@ class UserSignInView(FormView):
 
 class DonorsListView(ListView):
     template_name = "main/all_donors.html"
-    queryset = User.objects.filter(is_admin=False, is_active=True).order_by('id')
+    queryset = User.objects.filter(is_admin=False, is_active=True).order_by("id")
     context_object_name = "donors"
     paginate_by = 10
 
@@ -90,7 +91,6 @@ class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = "/profile"
     template_name = "main/password_change.html"
-    
 
 
 class DeleteAccountView(LoginRequiredMixin, TemplateView):
