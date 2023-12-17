@@ -497,15 +497,17 @@ a.bg-danger:hover {
 	font-size: 16px; 
 }
 
-.navbar-nav li a{
-	color: #e74c3c !important;
-}
 
 .navbar-nav .active {
     background-color: #e74c3c;
     color: rgb(255, 255, 255) !important;
     border-radius: 4px;
   }
+
+  /* .navbar-nav li .nav-link{
+	color: black !important;
+} */
+
 .btn-danger{
 	background-color: #e74c3c;
 	border-radius: 25px;
@@ -970,10 +972,7 @@ h1.page-header {
 }
 
 
-
-
-
-
-
-
+.st-link {
+	color: #e9b22a !important;
+}
 

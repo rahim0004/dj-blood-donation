@@ -1,12 +1,20 @@
 from django import forms
-from .models import User
+from .models import (
+    User,
+    StemCellDonor,
+    SCDonorShippingAddress,
+    SCDonorContactPerson1,
+    SCDonorContactPerson2,
+)
+from .choices import BloodGroupChoices
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate, login
+from datetime import date
 
 
 class UserRegistrationForm(forms.ModelForm):
     confirm_password = forms.CharField(max_length=128)
-    blood_group = forms.ChoiceField(choices=User.BloodGroupChoices.choices)
+    blood_group = forms.ChoiceField(choices=BloodGroupChoices.choices)
     DIVISION_CHOICES = [
         ("Dhaka", "Dhaka"),
         ("Chittagong", "Chittagong"),
@@ -21,7 +29,9 @@ class UserRegistrationForm(forms.ModelForm):
     division = forms.ChoiceField(
         choices=DIVISION_CHOICES, required=True, label="Division"
     )
-    date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'class': 'form-control', 'type':'date'}))
+    date_of_birth = forms.DateField(
+        widget=forms.TextInput(attrs={"class": "form-control", "type": "date"})
+    )
 
     class Meta:
         model = User
@@ -109,7 +119,7 @@ class UserLoginForm(forms.Form):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-    blood_group = forms.ChoiceField(choices=User.BloodGroupChoices.choices)
+    blood_group = forms.ChoiceField(choices=BloodGroupChoices.choices)
     DIVISION_CHOICES = [
         ("Dhaka", "Dhaka"),
         ("Chittagong", "Chittagong"),
@@ -124,8 +134,9 @@ class ProfileUpdateForm(forms.ModelForm):
     division = forms.ChoiceField(
         choices=DIVISION_CHOICES, required=True, label="Division"
     )
-    date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'class': 'form-control', 'type':'date'}))
-
+    date_of_birth = forms.DateField(
+        widget=forms.TextInput(attrs={"class": "form-control", "type": "date"})
+    )
 
     class Meta:
         model = User
@@ -140,3 +151,63 @@ class ProfileUpdateForm(forms.ModelForm):
             "blood_group",
             "division",
         ]
+
+
+class EligibleForm(forms.Form):
+    height_feet = forms.IntegerField(label="Height (Feet)", required=True)
+    height_inch = forms.IntegerField(label="Height (Inches)", required=True)
+    weight = forms.FloatField(label="Weight", required=True)
+    date_of_birth = forms.DateField(
+        widget=forms.TextInput(attrs={"class": "form-control", "type": "date"})
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data:
+            hf = cleaned_data.get("height_feet")
+            hi = cleaned_data.get("height_inch")
+            w = cleaned_data.get("weight")
+            dob = cleaned_data.get("date_of_birth")
+            height_in_meters = (hf * 0.3048) + (hi * 0.0254)
+            bmi = w / (height_in_meters**2)
+
+            if bmi >= 40:
+                raise forms.ValidationError(
+                    "Sorry You are not eligible. BMI should be below 40."
+                )
+            today = date.today()
+            age = (
+                today.year
+                - dob.year
+                - ((today.month, today.day) < (dob.month, dob.day))
+            )
+            if age < 18:
+                raise forms.ValidationError(
+                    "Sorry You are not eligible. Age should be at least 18."
+                )
+
+        return cleaned_data
+
+
+class StemCellDonorForm(forms.ModelForm):
+    class Meta:
+        model = StemCellDonor
+        exclude = ("donor",)
+
+
+class SCDonorShippingAddressForm(forms.ModelForm):
+    class Meta:
+        model = SCDonorShippingAddress
+        exclude = ("donor",)
+
+
+class SCDonorContactPerson1Form(forms.ModelForm):
+    class Meta:
+        model = SCDonorContactPerson1
+        exclude = ("donor",)
+
+
+class SCDonorContactPerson2Form(forms.ModelForm):
+    class Meta:
+        model = SCDonorContactPerson2
+        exclude = ("donor",)

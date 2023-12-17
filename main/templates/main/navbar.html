@@ -1,5 +1,5 @@
 <nav id="mainNav" class="navbar fixed-top navbar-default navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="../index.php">DONATETHEBLOOD</a>
+  <a class="navbar-brand" href="{% url "index" %}">DONATETHEBLOOD</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
     aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,11 +20,15 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'all_donors' %}">Donors</a>
       </li>
+
       <li class="nav-item">
         <a class="nav-link" href="{% url "search" %}">Search</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url "about" %}">About Us</a>
+      </li>
+      <li class="st-link">
+        <a class="st-link mx-4" href="{% url "stem_cell_eligible" %}" >Donate Stem Cell</a>
       </li>
       {% if not user.is_authenticated %}
       

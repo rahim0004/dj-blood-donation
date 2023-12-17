@@ -4,6 +4,14 @@ from django.contrib.auth.models import (
     PermissionsMixin,
     BaseUserManager,
 )
+from .choices import (
+    GenderChoices,
+    BloodGroupChoices,
+    TongueChoices,
+    CountryChoices,
+    DivistionChoice,
+    RelationshipChoice,
+)
 from django.core.validators import RegexValidator
 from django.conf import settings
 
@@ -29,20 +37,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    class GenderChoices(models.TextChoices):
-        Female = "female"
-        Male = "male"
-
-    class BloodGroupChoices(models.TextChoices):
-        A_POSITIVE = "A+", "A+"
-        A_NEGATIVE = "A-", "A-"
-        B_POSITIVE = "B+", "B+"
-        B_NEGATIVE = "B-", "B-"
-        AB_POSITIVE = "AB+", "AB+"
-        AB_NEGATIVE = "AB-", "AB-"
-        O_POSITIVE = "O+", "O+"
-        O_NEGATIVE = "O-", "O-"
-
     email = models.EmailField(unique=True)
     username = models.CharField(
         max_length=30,
@@ -90,3 +84,76 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_email_verified(self):
         return False if self.verification_token else True
+
+
+class StemCellDonor(models.Model):
+    gender = models.CharField(
+        max_length=8,
+        choices=GenderChoices.choices,
+        default=GenderChoices.MALE,
+    )
+
+    first_name = models.CharField(max_length=155)
+    surname = models.CharField(max_length=155)
+    mother_tongue = models.CharField(
+        max_length=10, choices=TongueChoices.choices, blank=True, null=True
+    )
+    on_whatsapp = models.BooleanField(verbose_name="Can We Connect On Whatsapp")
+    mobile = models.CharField(max_length=15)
+    email = models.CharField(max_length=155)
+
+    class Meta:
+        db_table = f"{settings.DB_PREFIX}stem_cell_donor"
+
+    def __str__(self):
+        return self.email
+
+
+class SCDonorShippingAddress(models.Model):
+    donor = models.OneToOneField(StemCellDonor, on_delete=models.CASCADE)
+    country = models.CharField(
+        max_length=100,
+        choices=CountryChoices.choices,
+        default=CountryChoices.BANGLADESH,
+    )
+    divistion = models.CharField(max_length=255, choices=DivistionChoice.choices)
+    city = models.CharField(max_length=255)
+    street = models.CharField(max_length=255)
+    area = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = f"{settings.DB_PREFIX}stem_cell_donor_shipping"
+
+    def __str__(self):
+        return self.donor.email
+
+
+class SCDonorContactPerson1(models.Model):
+    donor = models.ForeignKey(StemCellDonor, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=155)
+    surname = models.CharField(max_length=155)
+    relationship = models.CharField(max_length=20, choices=RelationshipChoice.choices)
+    phone = models.CharField(max_length=15)
+    email = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        db_table = f"{settings.DB_PREFIX}stem_cell_donor_contact_1"
+
+    def __str__(self):
+        return self.donor.email
+
+
+class SCDonorContactPerson2(models.Model):
+    donor = models.ForeignKey(StemCellDonor, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=155)
+    surname = models.CharField(max_length=155)
+    relationship = models.CharField(max_length=20, choices=RelationshipChoice.choices)
+    phone = models.CharField(max_length=15)
+    email = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        db_table = f"{settings.DB_PREFIX}stem_cell_donor_contact_2"
+
+    def __str__(self):
+        return self.donor.email

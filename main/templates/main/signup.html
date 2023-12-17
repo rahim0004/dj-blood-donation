@@ -1,4 +1,5 @@
 {% extends "main/base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
 
@@ -38,6 +39,7 @@ box-shadow: 0px 2px 5px -2px rgba(89,89,89,0.95);
 		width: 25%;
 	}
 </style>
+{% if not eligible %}
 <div class="container-fluid red-background size">
 	<div class="row">
 		<div class="col-md-6 offset-md-3">
@@ -45,7 +47,11 @@ box-shadow: 0px 2px 5px -2px rgba(89,89,89,0.95);
 			<hr class="white-bar">
 		</div>
 	</div>
+
 </div>
+{% else %}
+
+{% endif %}
 <div class="container size">
 	<div class="row">
 		<div class="col-md-6 offset-md-3 form-container">

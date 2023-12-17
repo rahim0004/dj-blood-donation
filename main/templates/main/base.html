@@ -1,55 +1,60 @@
 <!doctype html>
 {% load static %}
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
-    {% comment %} <link rel="stylesheet" href="{% static 'main/css/all.css' %}"> {% endcomment %}
-    <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/custom.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-    {% block my_style %}
-    
-    {% endblock my_style %}
-  </head>
-  <body>
-    {% include "main/navbar.html" %}
-    {% block content %}
-    
-    {% endblock content %}
-    
-    <script src="{% static 'main/js/jquery.js' %}"></script>
-    <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
-    <script>
-		
 
-      $(window).on('resize', function () {
-        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
-      })
-      $(window).on('resize', function () {
-        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
-      })
-    </script>
-    <script>
-      document.querySelectorAll(".nav-link").forEach((link) => {
-    if (link.href === window.location.href) {
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'main/css/all.css' %}"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'main/css/custom.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  {% block my_style %}
+
+  {% endblock my_style %}
+</head>
+
+<body>
+  {% include "main/navbar.html" %}
+  {% block content %}
+
+  {% endblock content %}
+
+  <script src="{% static 'main/js/jquery.js' %}"></script>
+  <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+  <script>
+
+
+    $(window).on('resize', function () {
+      if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+      if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+  </script>
+  <script>
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      if (link.href === window.location.href) {
         link.classList.add("active");
         link.setAttribute("aria-current", "page");
-    }
-});
+      }
+    });
 
-    </script>
-  
-  
-  </body>
-  <footer class="bg-dark text-light text-center py-3">
-    <div class="container">
-        <p>&copy; <strong>Donate Blood</strong> 2023. All Rights Reserved.</p>
-        <p>Bangladesh, Chittagong, Feni 3900 | +8801800000000</p>
-        <p>Connect with us: <a href="#"><i class="fab fa-facebook"></i></a> <a href="#"><i class="fab fa-twitter"></i></a></p>
-        <p><a class="text-light" href="#">Privacy Policy</a> | <a class="text-light" href="#">Terms of Service</a></p>
-    </div>
+  </script>
+
+
+</body>
+<footer class="bg-dark text-light text-center py-3">
+  <div class="container mt-5">
+    <p>&copy; <strong>Donate Blood</strong> 2023. All Rights Reserved.</p>
+    <p>Bangladesh, Chittagong, Feni 3900 | +8801800000000</p>
+    <p>Connect with us: <a href="#"><i class="fab fa-facebook"></i></a> <a href="#"><i class="fab fa-twitter"></i></a>
+    </p>
+    <p><a class="text-light" href="#">Privacy Policy</a> | <a class="text-light" href="#">Terms of Service</a></p>
+  </div>
 </footer>
+
 </html>
