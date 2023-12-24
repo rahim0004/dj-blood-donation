@@ -66,7 +66,6 @@ class UserRegistrationForm(forms.ModelForm):
     def clean_blood_group(self):
         data = self.cleaned_data.get("blood_group")
         if data == "----":
-            print("yes")
             raise forms.ValidationError("Invalid blood group selected.")
         return data
 
@@ -116,15 +115,14 @@ class UserLoginForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        if not self.is_valid():
+            return cleaned_data
 
         email = cleaned_data.get("email")
         password = cleaned_data.get("password")
-        user = None
-        if email and password:
-            user = authenticate(email=email, password=password)
-            if user is None:
-                raise forms.ValidationError("Invalid email or password.")
-        cleaned_data["user"] = user
+        cleaned_data['user'] = authenticate(email=email, password=password)
+        if cleaned_data['user'] is None:
+            raise forms.ValidationError("Invalid email or password.")
         return cleaned_data
 
     def login_user(self, request):
