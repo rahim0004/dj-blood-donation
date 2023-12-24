@@ -12,6 +12,19 @@ from django.contrib.auth import authenticate, login
 from datetime import date
 
 
+def get_height_choices():
+    choices = []
+
+    for i in range(4, 7):
+        for j in range(0, 12):
+            if i == 4 and j not in [10, 11]:
+                continue
+            name = f"{i}_{j}"
+            value = f"{i}' {j}\""
+            choices.append((name, value))
+    choices.append((f"{7}_{0}", f"{7}' {0}\""))
+    return choices
+
 class UserRegistrationForm(forms.ModelForm):
     confirm_password = forms.CharField(max_length=128)
     blood_group = forms.ChoiceField(choices=BloodGroupChoices.choices)
@@ -154,8 +167,11 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class EligibleForm(forms.Form):
-    height_feet = forms.IntegerField(label="Height (Feet)", required=True)
-    height_inch = forms.IntegerField(label="Height (Inches)", required=True)
+    HEIGHT_CHOICES = get_height_choices()
+
+    height_feet = forms.ChoiceField(
+        choices=HEIGHT_CHOICES, required=True, label="Height (Feet)"
+    )
     weight = forms.FloatField(label="Weight", required=True)
     date_of_birth = forms.DateField(
         widget=forms.TextInput(attrs={"class": "form-control", "type": "date"})
@@ -163,28 +179,27 @@ class EligibleForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data:
-            hf = cleaned_data.get("height_feet")
-            hi = cleaned_data.get("height_inch")
-            w = cleaned_data.get("weight")
-            dob = cleaned_data.get("date_of_birth")
-            height_in_meters = (hf * 0.3048) + (hi * 0.0254)
-            bmi = w / (height_in_meters**2)
-
-            if bmi >= 40:
-                raise forms.ValidationError(
-                    "Sorry You are not eligible. BMI should be below 40."
-                )
-            today = date.today()
-            age = (
-                today.year
-                - dob.year
-                - ((today.month, today.day) < (dob.month, dob.day))
+        if not self.is_valid():
+            return cleaned_data
+        hf, hi = map(int, cleaned_data.get("height_feet").split("_"))
+        w = cleaned_data.get("weight")
+        dob = cleaned_data.get("date_of_birth")
+        height_in_meters = (hf * 0.3048) + (hi * 0.0254)
+        bmi = w / (height_in_meters**2)
+        if bmi >= 40:
+            raise forms.ValidationError(
+                "Sorry You are not eligible. BMI should be below 40."
             )
-            if age < 18:
-                raise forms.ValidationError(
-                    "Sorry You are not eligible. Age should be at least 18."
-                )
+        today = date.today()
+        age = (
+            today.year
+            - dob.year
+            - ((today.month, today.day) < (dob.month, dob.day))
+        )
+        if age < 18:
+            raise forms.ValidationError(
+                "Sorry You are not eligible. Age should be at least 18."
+            )
 
         return cleaned_data
 
